@@ -1,5 +1,9 @@
 import { Transaction, filterTransactions } from './index';
 
+function intersection<T>(a: T[], b: T[]) {
+  return a.filter(value => b.includes(value));
+}
+
 const tesco = 0;
 const underground = 1;
 const coop = 2;
@@ -106,7 +110,7 @@ test('category and receipt filters', () => {
   expect(filtered).toEqual({
     categories: { all: present, food: t(tesco), transport, internet },
     receipts: { all: food, present: t(tesco), missing: t(coop) },
-    years: { all: t(tesco), 2019: t(tesco) },
+    years: { all: intersection(present, food), 2019: t(tesco) },
   });
 });
 
@@ -130,5 +134,28 @@ test('only year filter', () => {
       missing: [],
     },
     years,
+  });
+});
+
+test('category and year filters', () => {
+  const filtered = filterTransactions(transactions, {
+    receipt: 'all',
+    category: 'food',
+    year: '2019',
+  });
+
+  expect(filtered).toEqual({
+    categories: {
+      all: y2019,
+      food: t(tesco),
+      transport: t(underground),
+      internet: [],
+    },
+    receipts: {
+      all: intersection(food, y2019),
+      present: t(tesco),
+      missing: [],
+    },
+    years: { all: food, '2018': t(coop), '2019': t(tesco) },
   });
 });
