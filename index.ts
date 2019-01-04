@@ -27,7 +27,18 @@ export function countTransactions(
   transactions: Transaction[],
   filters: Filters,
 ): FilterCounts {
-  const categories = { all: 0, internet: 0, food: 0, transport: 0 };
+  const initialCategoryCounts: CategoryCounts = {
+    all: transactions.length,
+    internet: 0,
+    food: 0,
+    transport: 0,
+  };
+
+  const categories = transactions.reduce((counts, transaction) => {
+    counts[transaction.category]++;
+    return counts;
+  }, initialCategoryCounts);
+
   const receipts = { all: 5, present: 4, missing: 1 };
 
   return {
