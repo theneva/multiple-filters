@@ -28,7 +28,7 @@ export function countTransactions(
   filters: Filters,
 ): FilterCounts {
   const categories = { all: 0, internet: 0, food: 0, transport: 0 };
-  const receipts = { all: 0, present: 0, missing: 0 };
+  const receipts = { all: 5, present: 4, missing: 1 };
 
   return {
     categories,
