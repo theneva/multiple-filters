@@ -23,10 +23,7 @@ type FilterCounts = {
   receipts: ReceiptCounts;
 };
 
-export function countTransactions(
-  transactions: Transaction[],
-  filters: Filters,
-): FilterCounts {
+function groupByCategory(transactions: Transaction[]) {
   const initialCategoryCounts: CategoryCounts = {
     all: transactions,
     internet: [],
@@ -34,23 +31,34 @@ export function countTransactions(
     transport: [],
   };
 
-  const categories = transactions.reduce((acc, transaction) => {
+  return transactions.reduce((acc, transaction) => {
     acc[transaction.category].push(transaction);
     return acc;
   }, initialCategoryCounts);
+}
 
-  const filteredByCategory = categories[filters.category];
-
+function groupByReceipt(transactions: Transaction[]) {
   const initialReceiptCounts: ReceiptCounts = {
-    all: filteredByCategory,
+    all: transactions,
     present: [],
     missing: [],
   };
 
-  const receipts = filteredByCategory.reduce((acc, transaction) => {
+  return transactions.reduce((acc, transaction) => {
     acc[transaction.receipt].push(transaction);
     return acc;
   }, initialReceiptCounts);
+}
+
+export function countTransactions(
+  transactions: Transaction[],
+  filters: Filters,
+): FilterCounts {
+  const allByCategory = groupByCategory(transactions);
+  const allByReceipt = groupByReceipt(transactions);
+
+  const categories = groupByCategory(allByReceipt[filters.receipt]);
+  const receipts = groupByReceipt(allByCategory[filters.category]);
 
   return {
     categories,
