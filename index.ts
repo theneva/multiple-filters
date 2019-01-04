@@ -39,7 +39,16 @@ export function countTransactions(
     return counts;
   }, initialCategoryCounts);
 
-  const receipts = { all: 5, present: 4, missing: 1 };
+  const initialReceiptCounts: ReceiptCounts = {
+    all: transactions.length,
+    present: 0,
+    missing: 0,
+  };
+
+  const receipts = transactions.reduce((counts, transaction) => {
+    counts[transaction.receipt]++;
+    return counts;
+  }, initialReceiptCounts);
 
   return {
     categories,
