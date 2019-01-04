@@ -39,13 +39,14 @@ export function countTransactions(
     return acc;
   }, initialCategoryCounts);
 
+  const filteredByCategory = categories[filters.category];
+
   const initialReceiptCounts: ReceiptCounts = {
-    all: transactions,
+    all: filteredByCategory,
     present: [],
     missing: [],
   };
 
-  const filteredByCategory = categories[filters.category];
   const receipts = filteredByCategory.reduce((acc, transaction) => {
     acc[transaction.receipt].push(transaction);
     return acc;

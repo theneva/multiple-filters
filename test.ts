@@ -48,6 +48,6 @@ test('only category filter', () => {
 
   expect(counts).toEqual({
     categories: { all, food, transport, internet },
-    receipts: { all, present: t(tesco), missing: t(coop) },
+    receipts: { all: t(tesco, coop), present: t(tesco), missing: t(coop) },
   });
 });
