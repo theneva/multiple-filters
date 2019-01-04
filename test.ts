@@ -109,3 +109,26 @@ test('category and receipt filters', () => {
     years: { all: t(tesco), 2019: t(tesco) },
   });
 });
+
+test('only year filter', () => {
+  const filtered = filterTransactions(transactions, {
+    receipt: 'all',
+    category: 'all',
+    year: '2019',
+  });
+
+  expect(filtered).toEqual({
+    categories: {
+      all: y2019,
+      food: t(tesco),
+      transport: t(underground),
+      internet: [],
+    },
+    receipts: {
+      all: y2019,
+      present: y2019,
+      missing: [],
+    },
+    years,
+  });
+});
