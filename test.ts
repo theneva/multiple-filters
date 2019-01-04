@@ -34,47 +34,47 @@ function t(...indices: number[]): Transaction[] {
 }
 
 test('no filters just yields the length', () => {
-  const counts = filterTransactions(transactions, {
+  const filtered = filterTransactions(transactions, {
     receipt: 'all',
     category: 'all',
   });
-  expect(counts).toEqual({
+  expect(filtered).toEqual({
     categories: { all, food, transport, internet },
     receipts: { all, present, missing },
   });
 });
 
 test('only category filter', () => {
-  const counts = filterTransactions(transactions, {
+  const filtered = filterTransactions(transactions, {
     receipt: 'all',
     category: 'food',
   });
 
-  expect(counts).toEqual({
+  expect(filtered).toEqual({
     categories,
     receipts: { all: t(tesco, coop), present: t(tesco), missing: t(coop) },
   });
 });
 
 test('only receipt filter', () => {
-  const counts = filterTransactions(transactions, {
+  const filtered = filterTransactions(transactions, {
     receipt: 'present',
     category: 'all',
   });
 
-  expect(counts).toEqual({
+  expect(filtered).toEqual({
     categories: { all: present, food: t(tesco), transport, internet },
     receipts,
   });
 });
 
 test('category and receipt filters', () => {
-  const counts = filterTransactions(transactions, {
+  const filtered = filterTransactions(transactions, {
     receipt: 'present',
     category: 'food',
   });
 
-  expect(counts).toEqual({
+  expect(filtered).toEqual({
     categories: { all: present, food: t(tesco), transport, internet },
     receipts: { all: food, present: t(tesco), missing: t(coop) },
   });
