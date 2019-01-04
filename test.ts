@@ -7,11 +7,26 @@ const google = 3;
 const taxi = 4;
 
 const transactions: Transaction[] = [
-  { description: 'Tesco', category: 'food', receipt: 'present' },
-  { description: 'Underground', category: 'transport', receipt: 'present' },
-  { description: 'Coop', category: 'food', receipt: 'missing' },
-  { description: 'Google', category: 'internet', receipt: 'present' },
-  { description: 'Taxi', category: 'transport', receipt: 'present' },
+  { description: 'Tesco', category: 'food', receipt: 'present', year: '2019' },
+  {
+    description: 'Underground',
+    category: 'transport',
+    receipt: 'present',
+    year: '2019',
+  },
+  { description: 'Coop', category: 'food', receipt: 'missing', year: '2018' },
+  {
+    description: 'Google',
+    category: 'internet',
+    receipt: 'present',
+    year: '2017',
+  },
+  {
+    description: 'Taxi',
+    category: 'transport',
+    receipt: 'present',
+    year: '2017',
+  },
 ];
 
 const all = transactions;
@@ -29,6 +44,13 @@ const missing = t(coop);
 
 const receipts = { all, present, missing };
 
+// by year
+const y2017 = t(google, taxi);
+const y2018 = t(coop);
+const y2019 = t(tesco, underground);
+
+const years = { all, 2017: y2017, 2018: y2018, 2019: y2019 };
+
 function t(...indices: number[]): Transaction[] {
   return indices.map(i => transactions[i]);
 }
@@ -37,10 +59,12 @@ test('no filters', () => {
   const filtered = filterTransactions(transactions, {
     receipt: 'all',
     category: 'all',
+    year: 'all',
   });
   expect(filtered).toEqual({
     categories,
     receipts,
+    years,
   });
 });
 
@@ -48,11 +72,13 @@ test('only category filter', () => {
   const filtered = filterTransactions(transactions, {
     receipt: 'all',
     category: 'food',
+    year: 'all',
   });
 
   expect(filtered).toEqual({
     categories,
-    receipts: { all: t(tesco, coop), present: t(tesco), missing: t(coop) },
+    receipts: { all: food, present: t(tesco), missing: t(coop) },
+    years: { all: food, '2018': t(coop), '2019': t(tesco) },
   });
 });
 
@@ -60,11 +86,13 @@ test('only receipt filter', () => {
   const filtered = filterTransactions(transactions, {
     receipt: 'present',
     category: 'all',
+    year: 'all',
   });
 
   expect(filtered).toEqual({
     categories: { all: present, food: t(tesco), transport, internet },
     receipts,
+    years: { all: present, 2017: y2017, 2019: y2019 }, // nothing from 2018
   });
 });
 
@@ -72,10 +100,12 @@ test('category and receipt filters', () => {
   const filtered = filterTransactions(transactions, {
     receipt: 'present',
     category: 'food',
+    year: 'all',
   });
 
   expect(filtered).toEqual({
     categories: { all: present, food: t(tesco), transport, internet },
     receipts: { all: food, present: t(tesco), missing: t(coop) },
+    years: { all: t(tesco), 2019: t(tesco) },
   });
 });
