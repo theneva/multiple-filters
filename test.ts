@@ -33,14 +33,14 @@ function t(...indices: number[]): Transaction[] {
   return indices.map(i => transactions[i]);
 }
 
-test('no filters just yields the length', () => {
+test('no filters', () => {
   const filtered = filterTransactions(transactions, {
     receipt: 'all',
     category: 'all',
   });
   expect(filtered).toEqual({
-    categories: { all, food, transport, internet },
-    receipts: { all, present, missing },
+    categories,
+    receipts,
   });
 });
 
