@@ -182,3 +182,29 @@ test('receipt and year filters', () => {
     years: { all: present, 2017: y2017, 2019: y2019 },
   });
 });
+
+test('category, receipt, and year filters', () => {
+  const filtered = filterTransactions(transactions, {
+    receipt: 'present',
+    category: 'food',
+    year: '2019',
+  });
+
+  expect(filtered).toEqual({
+    categories: {
+      all: intersection(present, y2019),
+      food: t(tesco),
+      transport: t(underground),
+      internet: [],
+    },
+    receipts: {
+      all: intersection(food, y2019),
+      present: t(tesco),
+      missing: [],
+    },
+    years: {
+      all: intersection(food, present),
+      2019: intersection(intersection(food, present), y2019),
+    },
+  });
+});
