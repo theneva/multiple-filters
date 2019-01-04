@@ -159,3 +159,26 @@ test('category and year filters', () => {
     years: { all: food, '2018': t(coop), '2019': t(tesco) },
   });
 });
+
+test('receipt and year filters', () => {
+  const filtered = filterTransactions(transactions, {
+    receipt: 'present',
+    category: 'all',
+    year: '2019',
+  });
+
+  expect(filtered).toEqual({
+    categories: {
+      all: intersection(present, y2019),
+      food: t(tesco),
+      transport: t(underground),
+      internet: [],
+    },
+    receipts: {
+      all: y2019,
+      present: t(tesco, underground),
+      missing: [],
+    },
+    years: { all: present, 2017: y2017, 2019: y2019 },
+  });
+});
