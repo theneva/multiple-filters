@@ -15,8 +15,8 @@ export type Filters = {
   receipt: ReceiptFilter;
 };
 
-type CategoryCounts = { [key in CategoryFilter]: number };
-type ReceiptCounts = { [key in ReceiptFilter]: number };
+type CategoryCounts = { [key in CategoryFilter]: Array<Transaction> };
+type ReceiptCounts = { [key in ReceiptFilter]: Array<Transaction> };
 
 type FilterCounts = {
   categories: CategoryCounts;
@@ -28,25 +28,25 @@ export function countTransactions(
   filters: Filters,
 ): FilterCounts {
   const initialCategoryCounts: CategoryCounts = {
-    all: transactions.length,
-    internet: 0,
-    food: 0,
-    transport: 0,
+    all: transactions,
+    internet: [],
+    food: [],
+    transport: [],
   };
 
-  const categories = transactions.reduce((counts, transaction) => {
-    counts[transaction.category]++;
-    return counts;
+  const categories = transactions.reduce((acc, transaction) => {
+    acc[transaction.category].push(transaction);
+    return acc;
   }, initialCategoryCounts);
 
   const initialReceiptCounts: ReceiptCounts = {
-    all: transactions.length,
-    present: 0,
-    missing: 0,
+    all: transactions,
+    present: [],
+    missing: [],
   };
 
   const receipts = transactions.reduce((counts, transaction) => {
-    counts[transaction.receipt]++;
+    counts[transaction.receipt].push(transaction);
     return counts;
   }, initialReceiptCounts);
 
