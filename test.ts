@@ -67,3 +67,15 @@ test('only receipt filter', () => {
     receipts,
   });
 });
+
+test('category and receipt filters', () => {
+  const counts = countTransactions(transactions, {
+    receipt: 'present',
+    category: 'food',
+  });
+
+  expect(counts).toEqual({
+    categories: { all: present, food: t(tesco), transport, internet },
+    receipts: { all: food, present: t(tesco), missing: t(coop) },
+  });
+});
