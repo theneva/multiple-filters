@@ -50,7 +50,7 @@ function groupByReceipt(transactions: Transaction[]) {
   }, initialReceiptCounts);
 }
 
-export function countTransactions(
+export function filterTransactions(
   transactions: Transaction[],
   filters: Filters,
 ): FilterCounts {

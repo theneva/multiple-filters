@@ -1,4 +1,4 @@
-import { Transaction, countTransactions } from './index';
+import { Transaction, filterTransactions } from './index';
 
 const tesco = 0;
 const underground = 1;
@@ -34,7 +34,7 @@ function t(...indices: number[]): Transaction[] {
 }
 
 test('no filters just yields the length', () => {
-  const counts = countTransactions(transactions, {
+  const counts = filterTransactions(transactions, {
     receipt: 'all',
     category: 'all',
   });
@@ -45,7 +45,7 @@ test('no filters just yields the length', () => {
 });
 
 test('only category filter', () => {
-  const counts = countTransactions(transactions, {
+  const counts = filterTransactions(transactions, {
     receipt: 'all',
     category: 'food',
   });
@@ -57,7 +57,7 @@ test('only category filter', () => {
 });
 
 test('only receipt filter', () => {
-  const counts = countTransactions(transactions, {
+  const counts = filterTransactions(transactions, {
     receipt: 'present',
     category: 'all',
   });
@@ -69,7 +69,7 @@ test('only receipt filter', () => {
 });
 
 test('category and receipt filters', () => {
-  const counts = countTransactions(transactions, {
+  const counts = filterTransactions(transactions, {
     receipt: 'present',
     category: 'food',
   });
