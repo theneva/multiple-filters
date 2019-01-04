@@ -1,29 +1,29 @@
-import { Transaction, Category } from './index';
+import { Transaction, countTransactions } from './index';
 
 const transactions: Transaction[] = [
-  { description: 'Tesco', category: Category.Food, hasReceipt: true },
-  {
-    description: 'Underground',
-    category: Category.Transport,
-    hasReceipt: true,
-  },
-  { description: 'Coop', category: Category.Food, hasReceipt: false },
-  {
-    description: 'Google',
-    category: Category.Internet,
-    hasReceipt: true,
-  },
-  { description: 'Taxi', category: Category.Transport, hasReceipt: true },
+  { description: 'Tesco', category: 'food', receipt: 'present' },
+  { description: 'Underground', category: 'transport', receipt: 'present' },
+  { description: 'Coop', category: 'food', receipt: 'missing' },
+  { description: 'Google', category: 'internet', receipt: 'present' },
+  { description: 'Taxi', category: 'transport', receipt: 'present' },
 ];
 
-test('blah', () => {
-  console.log();
+test('no filters just yields the length', () => {
+  const counts = countTransactions(transactions, {
+    receipt: 'all',
+    category: 'all',
+  });
+  expect(counts).toEqual({
+    categories: {
+      all: 5,
+      food: 2,
+      transport: 2,
+      internet: 1,
+    },
+    receipts: {
+      all: 5,
+      present: 4,
+      missing: 1,
+    },
+  });
 });
-
-// test('no filters just yields the length', () => {
-//   const count = countTransactions(transactions, {
-//     hasReceipt: 'all',
-//     category: 'all',
-//   });
-//   expect(count).toBe(transactions.length);
-// });

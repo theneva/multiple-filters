@@ -1,31 +1,37 @@
-export enum Category {
-  Internet,
-  Transport,
-  Food,
-}
+type Category = 'internet' | 'food' | 'transport';
+type Receipt = 'present' | 'missing';
 
 export type Transaction = {
   description: string;
-  hasReceipt: boolean;
   category: Category;
+  receipt: Receipt;
 };
+
+type CategoryFilter = 'all' | Category;
+type ReceiptFilter = 'all' | Receipt;
 
 export type Filters = {
-  hasReceipt: boolean | null;
-  category: 'all' | Category;
+  category: CategoryFilter;
+  receipt: ReceiptFilter;
 };
 
-type CountsByCategory = Map<Category, number>;
-type CountsByReceipt = Map<boolean, number>;
+type CategoryCounts = { [key in CategoryFilter]: number };
+type ReceiptCounts = { [key in ReceiptFilter]: number };
 
 type FilterCounts = {
-    categories: CountsByCategory;
-    receipts:
-}
+  categories: CategoryCounts;
+  receipts: ReceiptCounts;
+};
 
 export function countTransactions(
   transactions: Transaction[],
   filters: Filters,
 ): FilterCounts {
-  return transactions.length;
+  const categories = { all: 0, internet: 0, food: 0, transport: 0 };
+  const receipts = { all: 0, present: 0, missing: 0 };
+
+  return {
+    categories,
+    receipts,
+  };
 }
