@@ -82,7 +82,6 @@ export function filterTransactions(
 ): FilterCounts {
   const allByCategory = groupByCategory(transactions);
   const allByReceipt = groupByReceipt(transactions);
-  const allByYear = groupByYear(transactions);
 
   const categories = groupByCategory(
     groupByYear(allByReceipt[filters.receipt])[filters.year],
