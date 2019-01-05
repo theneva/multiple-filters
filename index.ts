@@ -1,8 +1,8 @@
 import { filter } from 'rsvp';
 
-type Category = 'internet' | 'food' | 'transport';
-type Receipt = 'present' | 'missing';
-type Year = string;
+export type Category = 'internet' | 'food' | 'transport';
+export type Receipt = 'present' | 'missing';
+export type Year = string;
 
 export type Transaction = {
   description: string;
@@ -21,11 +21,11 @@ export type Filters = {
   year: YearFilter;
 };
 
-type CategoryCounts = { [key in CategoryFilter]: Array<Transaction> };
-type ReceiptCounts = { [key in ReceiptFilter]: Array<Transaction> };
-type YearCounts = { [key: string]: Array<Transaction> }; // Can't use Year here; TS says no
+export type CategoryCounts = { [key in CategoryFilter]: Array<Transaction> };
+export type ReceiptCounts = { [key in ReceiptFilter]: Array<Transaction> };
+export type YearCounts = { [key: string]: Array<Transaction> }; // Can't use Year here; TS says no
 
-type FilterCounts = {
+export type FilterCounts = {
   categories: CategoryCounts;
   receipts: ReceiptCounts;
   years: YearCounts;
@@ -76,8 +76,8 @@ function groupByYear(transactions: Transaction[]) {
   }, initialYearCounts);
 }
 
-type FilterName = keyof Filters;
-type FilterFunctions = {
+export type FilterName = keyof Filters;
+export type FilterFunctions = {
   [name in FilterName]: (transactions: Transaction[]) => Transaction[]
 };
 
