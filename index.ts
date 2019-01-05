@@ -93,7 +93,7 @@ export function filterTransactions(
   transactions: Transaction[],
   filters: Filters,
 ): FilterCounts {
-  function applyFiltersExcept(except: keyof Filters) {
+  function applyFiltersExcept(except: FilterName) {
     const filtersWithoutException = {
       ...filterFunctions(filters),
     };
