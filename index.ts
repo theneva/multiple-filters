@@ -23,7 +23,7 @@ export type Filters = {
 
 type CategoryCounts = { [key in CategoryFilter]: Array<Transaction> };
 type ReceiptCounts = { [key in ReceiptFilter]: Array<Transaction> };
-type YearCounts = { [key: string]: Array<Transaction> }; // Cant use Year here; TS says no
+type YearCounts = { [key: string]: Array<Transaction> }; // Can't use Year here; TS says no
 
 type FilterCounts = {
   categories: CategoryCounts;
