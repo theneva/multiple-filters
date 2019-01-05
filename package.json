@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "tsc -p .",
     "test": "jest"
   },
   "devDependencies": {
