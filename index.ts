@@ -11,9 +11,9 @@ export type Transaction = {
   year: Year;
 };
 
-type CategoryFilter = 'all' | Category;
-type ReceiptFilter = 'all' | Receipt;
-type YearFilter = 'all' | Year;
+export type CategoryFilter = 'all' | Category;
+export type ReceiptFilter = 'all' | Receipt;
+export type YearFilter = 'all' | Year;
 
 export type Filters = {
   category: CategoryFilter;
