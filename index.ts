@@ -76,24 +76,39 @@ function groupByYear(transactions: Transaction[]) {
   }, initialYearCounts);
 }
 
+type FilterName = keyof Filters;
+type FilterFunctions = {
+  [name in FilterName]: (transactions: Transaction[]) => Transaction[]
+};
+
+function filterFunctions(filters: Filters): FilterFunctions {
+  return {
+    category: transactions => groupByCategory(transactions)[filters.category],
+    receipt: transactions => groupByReceipt(transactions)[filters.receipt],
+    year: transactions => groupByYear(transactions)[filters.year],
+  };
+}
+
 export function filterTransactions(
   transactions: Transaction[],
   filters: Filters,
 ): FilterCounts {
-  const allByCategory = groupByCategory(transactions);
-  const allByReceipt = groupByReceipt(transactions);
+  function applyFiltersExcept(except: keyof Filters) {
+    const filtersWithoutException = {
+      ...filterFunctions(filters),
+    };
+    delete filtersWithoutException[except];
 
-  const categories = groupByCategory(
-    groupByYear(allByReceipt[filters.receipt])[filters.year],
-  );
+    const otherFilters = Object.values(filtersWithoutException);
 
-  const receipts = groupByReceipt(
-    groupByYear(allByCategory[filters.category])[filters.year],
-  );
+    return otherFilters.reduce((filtered, filter) => filter(filtered), [
+      ...transactions,
+    ]);
+  }
 
-  const years = groupByYear(
-    groupByCategory(allByReceipt[filters.receipt])[filters.category],
-  );
+  const categories = groupByCategory(applyFiltersExcept('category'));
+  const receipts = groupByReceipt(applyFiltersExcept('receipt'));
+  const years = groupByYear(applyFiltersExcept('year'));
 
   return {
     categories,
