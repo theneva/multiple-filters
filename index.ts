@@ -13,7 +13,7 @@ export type Transaction = {
 
 type CategoryFilter = 'all' | Category;
 type ReceiptFilter = 'all' | Receipt;
-type YearFilter = null | Year;
+type YearFilter = 'all' | Year;
 
 export type Filters = {
   category: CategoryFilter;
