@@ -1,4 +1,4 @@
-import { Transaction, filterTransactions } from './index';
+import { Transaction, availableTransactionsByFilter } from './index';
 
 function intersection<T>(a: T[], b: T[]) {
   return a.filter(value => b.includes(value));
@@ -60,7 +60,7 @@ function t(...indices: number[]): Transaction[] {
 }
 
 test('no filters', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'all',
     category: 'all',
     year: 'all',
@@ -73,7 +73,7 @@ test('no filters', () => {
 });
 
 test('only category filter', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'all',
     category: 'food',
     year: 'all',
@@ -87,7 +87,7 @@ test('only category filter', () => {
 });
 
 test('only receipt filter', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'present',
     category: 'all',
     year: 'all',
@@ -101,7 +101,7 @@ test('only receipt filter', () => {
 });
 
 test('category and receipt filters', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'present',
     category: 'food',
     year: 'all',
@@ -115,7 +115,7 @@ test('category and receipt filters', () => {
 });
 
 test('only year filter', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'all',
     category: 'all',
     year: '2019',
@@ -138,7 +138,7 @@ test('only year filter', () => {
 });
 
 test('category and year filters', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'all',
     category: 'food',
     year: '2019',
@@ -161,7 +161,7 @@ test('category and year filters', () => {
 });
 
 test('receipt and year filters', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'present',
     category: 'all',
     year: '2019',
@@ -184,7 +184,7 @@ test('receipt and year filters', () => {
 });
 
 test('category, receipt, and year filters', () => {
-  const filtered = filterTransactions(transactions, {
+  const filtered = availableTransactionsByFilter(transactions, {
     receipt: 'present',
     category: 'food',
     year: '2019',

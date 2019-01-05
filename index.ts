@@ -89,7 +89,7 @@ function filterFunctions(filters: Filters): FilterFunctions {
   };
 }
 
-export function filterTransactions(
+export function availableTransactionsByFilter(
   transactions: Transaction[],
   filters: Filters,
 ): FilterCounts {
