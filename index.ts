@@ -1,5 +1,3 @@
-import { filter } from 'rsvp';
-
 export type Category = 'internet' | 'food' | 'transport';
 export type Receipt = 'present' | 'missing';
 export type Year = string;
